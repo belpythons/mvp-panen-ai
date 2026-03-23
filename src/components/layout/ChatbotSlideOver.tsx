@@ -2,6 +2,7 @@
 
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
@@ -23,13 +24,19 @@ export function ChatbotSlideOver() {
       </SheetTrigger>
       <SheetContent className="w-full sm:max-w-md bg-card border-border flex flex-col p-0">
         <SheetHeader className="p-6 border-b border-border">
-          <SheetTitle className="flex items-center gap-2 text-primary">
-            <Bot className="w-6 h-6" />
-            Tanya AI
+          <SheetTitle className="flex items-center justify-between gap-2 text-primary w-full pr-10">
+            <div className="flex items-center gap-2">
+              <Bot className="w-6 h-6" />
+              Tanya AI
+            </div>
           </SheetTitle>
           <SheetDescription className="text-muted-foreground">
             Asisten cerdas untuk analisa harga dan tren komoditas.
           </SheetDescription>
+          <SheetClose className="absolute top-4 right-4 h-8 w-8 flex items-center justify-center rounded-full bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90 ring-offset-background transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
+            <span className="sr-only">Tutup</span>
+            &times;
+          </SheetClose>
         </SheetHeader>
         
         <div className="flex-1 p-6 overflow-y-auto flex flex-col gap-4">
