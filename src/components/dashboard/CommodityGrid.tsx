@@ -30,13 +30,18 @@ export function CommodityGrid({ commodities }: { commodities: Commodity[] }) {
       </div>
 
       <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {commodities.map((commodity) => (
-          <CommodityCard 
+        {commodities.map((commodity, i) => (
+          <div 
             key={commodity.id} 
-            commodity={commodity} 
-            isSelected={selectedCommodity?.id === commodity.id}
-            onClick={() => setSelectedCommodity(commodity)}
-          />
+            className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
+            style={{ animationDelay: `${i * 100}ms` }}
+          >
+            <CommodityCard 
+              commodity={commodity} 
+              isSelected={selectedCommodity?.id === commodity.id}
+              onClick={() => setSelectedCommodity(commodity)}
+            />
+          </div>
         ))}
       </div>
     </div>
