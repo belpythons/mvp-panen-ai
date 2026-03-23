@@ -1,22 +1,33 @@
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Commodity } from "@/types";
-import { PriceChart } from "./PriceChart";
 import { cn } from "@/lib/utils";
 
-export function CommodityCard({ commodity }: { commodity: Commodity }) {
+export function CommodityCard({ 
+  commodity, 
+  isSelected, 
+  onClick 
+}: { 
+  commodity: Commodity; 
+  isSelected?: boolean;
+  onClick?: () => void;
+}) {
   const priceChange = commodity.currentPrice - commodity.previousPrice;
   const percentageChange = (priceChange / commodity.previousPrice) * 100;
   const isUp = priceChange > 0;
 
-  const chartData = [...commodity.history, ...commodity.predicted];
-
   return (
-    <Card className="bg-card border-border hover:border-primary/50 transition-colors duration-300">
-      <CardHeader className="pb-2">
+    <Card 
+      onClick={onClick}
+      className={cn(
+        "bg-card border-border hover:border-primary/50 transition-colors duration-300 cursor-pointer",
+        isSelected && "border-primary"
+      )}
+    >
+      <CardHeader className="pb-2 p-6">
         <div className="flex justify-between items-start">
           <div>
-            <CardTitle className="text-lg font-bold text-foreground">
+            <CardTitle className="text-xl font-bold text-foreground">
               {commodity.name}
             </CardTitle>
             <CardDescription className="text-muted-foreground text-xs mt-1">
@@ -28,30 +39,17 @@ export function CommodityCard({ commodity }: { commodity: Commodity }) {
           </div>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-6 pt-0">
         <div className="flex items-end gap-3 mt-2">
-          <span className="text-3xl font-bold text-primary">
+          <span className="text-2xl font-bold text-white">
             Rp {commodity.currentPrice.toLocaleString("id-ID")}
           </span>
           <div className={cn(
             "flex items-center text-sm font-medium mb-1",
             isUp ? "text-destructive" : "text-[#39FF14]" // Red for up (inflation), Green for down 
           )}>
-            {isUp ? <TrendingUp className="w-4 h-4 mr-1" /> : <TrendingDown className="w-4 h-4 mr-1" />}
+            {isUp ? <TrendingUp className="w-6 h-6 mr-1" /> : <TrendingDown className="w-6 h-6 mr-1" />}
             {Math.abs(percentageChange).toFixed(1)}%
-          </div>
-        </div>
-        
-        <PriceChart data={chartData} />
-        
-        <div className="flex justify-between items-center mt-4 text-xs">
-          <div className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full bg-primary" />
-            <span className="text-muted-foreground">Histori</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full border border-secondary" />
-            <span className="text-muted-foreground">Prediksi AI</span>
           </div>
         </div>
       </CardContent>
