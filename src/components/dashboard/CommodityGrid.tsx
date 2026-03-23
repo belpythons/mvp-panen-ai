@@ -1,12 +1,44 @@
+"use client";
+
+import { useState } from "react";
 import { Commodity } from "@/types";
 import { CommodityCard } from "./CommodityCard";
+import { PriceChart } from "./PriceChart";
 
 export function CommodityGrid({ commodities }: { commodities: Commodity[] }) {
+  const [selectedCommodity, setSelectedCommodity] = useState<Commodity>(commodities[0]);
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {commodities.map((commodity) => (
-        <CommodityCard key={commodity.id} commodity={commodity} />
-      ))}
+    <div className="flex flex-col md:grid md:grid-cols-3 gap-6 relative">
+      <div className="md:col-span-1 md:order-last sticky top-0 z-10 bg-background/95 backdrop-blur p-4 rounded-xl border border-border md:static md:bg-transparent md:backdrop-blur-none md:p-0 md:rounded-none md:border-none md:sticky md:top-6 md:self-start">
+        <h3 className="text-lg font-bold mb-4 text-foreground">{selectedCommodity?.name} Trend</h3>
+        {selectedCommodity && (
+          <div className="bg-card p-4 rounded-xl border border-border">
+            <PriceChart data={[...selectedCommodity.history, ...selectedCommodity.predicted]} />
+            <div className="flex justify-between items-center mt-4 text-xs">
+              <div className="flex items-center gap-1.5">
+                <div className="w-2 h-2 rounded-full bg-primary" />
+                <span className="text-muted-foreground">Histori</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="w-2 h-2 rounded-full border border-secondary" />
+                <span className="text-muted-foreground">Prediksi AI</span>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {commodities.map((commodity) => (
+          <CommodityCard 
+            key={commodity.id} 
+            commodity={commodity} 
+            isSelected={selectedCommodity?.id === commodity.id}
+            onClick={() => setSelectedCommodity(commodity)}
+          />
+        ))}
+      </div>
     </div>
   );
 }
