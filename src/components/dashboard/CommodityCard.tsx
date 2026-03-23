@@ -20,8 +20,8 @@ export function CommodityCard({
     <Card 
       onClick={onClick}
       className={cn(
-        "bg-card border-border hover:border-primary/50 transition-colors duration-300 cursor-pointer",
-        isSelected && "border-primary"
+        "bg-card border-border transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/20 hover:border-primary/50 cursor-pointer active:scale-95",
+        isSelected && "border-primary ring-1 ring-primary/20"
       )}
     >
       <CardHeader className="pb-2 p-6">

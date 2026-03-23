@@ -20,8 +20,8 @@ export const viewport: Viewport = {
   maximumScale: 1,
 };
 
-import { Sidebar } from "@/components/layout/Sidebar";
-import { MobileHeader } from "@/components/layout/MobileHeader";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Navbar } from "@/components/layout/Navbar";
 
 export default function RootLayout({
   children,
@@ -31,16 +31,21 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${inter.variable} dark h-full antialiased`}
+      className={`${inter.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col md:flex-row bg-background text-foreground">
-        <Sidebar className="flex-shrink-0" />
-        <div className="flex-1 flex flex-col min-w-0">
-          <MobileHeader />
-          <main className="flex-1 overflow-y-auto p-4 md:p-8">
+      <body className="min-h-full flex flex-col bg-background text-foreground">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          <main className="flex-1 overflow-y-auto px-4 py-6 md:px-8 md:py-8 w-full max-w-7xl mx-auto">
             {children}
           </main>
-        </div>
+        </ThemeProvider>
       </body>
     </html>
   );
